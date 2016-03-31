@@ -1,0 +1,133 @@
+<!--
+NAME: JANA EZRA V. MERLAN
+CMSC 128 AB-4L
+2013-22119
+PROGRAM DESCRIPTION: COLLECTION OF NAME, CONTACT NUMBER, AND ORGANIZATION
+!-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>EVENT GUEST ATTENDANCE</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+  <nav class="light-blue lighten-1" role="navigation">
+    
+  </nav>
+  <div class="section no-pad-bot" id="index-banner"> 
+    
+	<div class="container">
+      <br><br>
+      <h1 class="header center orange-text">EVENT GUEST ATTENDANCE</h1>
+	  <!---
+	  <div class="row center">
+        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+      </div>
+      <div class="row center">
+        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
+      </div>
+      <br><br>
+		!--->
+    </div>
+	
+  </div>
+
+<div id='messagesDiv'>
+	
+	<ul class="collection">
+		<li><div class="row"><div class="col s12 m4 l4">Name</div><div class="col s12 m4 l4">Contact Number</div><div class="col s12 m4 l4">Organization</div></div></li>
+	</ul>
+</div>
+    <input type='text' id='nameInput' placeholder='Name'>
+    <input type='text' id='contactInput' placeholder='Contact Number'>
+	<input type='text' id='orgInput' placeholder='Organization'>
+	
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script>
+	var myDataRef = new Firebase('https://shining-torch-4530.firebaseio.com');
+	 $('#orgInput').keypress(function (e) {
+	
+        if (e.keyCode == 13) {
+          var name = $('#nameInput').val();
+          var contactNumber = $('#contactInput').val();
+		  var org = $('#orgInput').val();
+          myDataRef.push({name: name, contactNumber: contactNumber, org: org});
+          $('#nameInput').val('');
+          $('#contactInput').val('');
+          $('#orgInput').val('');
+        }
+      });
+      myDataRef.on('child_added', function(snapshot) {
+         var message = snapshot.val();
+        displayChatMessage(message.name, message.contactNumber, message.org);
+      });
+	  function displayChatMessage(name, contactNumber, org) {
+		var row = document.createElement('div');
+		row.className = 'row';
+		
+		var n = document.createElement('div');
+		n.className = 'col s12 m4 l4';
+		var text = document.createTextNode(name);
+		n.appendChild(text);
+		
+		var c = document.createElement('div');
+		c.className = 'col s12 m4 l4';
+		var text = document.createTextNode(contactNumber);
+		c.appendChild(text);
+		
+		var o = document.createElement('div');
+		o.className = 'col s12 m4 l4';
+		var text = document.createTextNode(org);
+		o.appendChild(text);
+		
+		row.appendChild(n);
+		row.appendChild(c);
+		row.appendChild(o);
+		
+        $('<li/>').toggleClass('collection-item').prepend(row).appendTo($('#messagesDiv .collection'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };
+  </script>
+  
+    <br><br>
+
+    <div class="section">
+
+    </div>
+  </div>
+
+  <footer class="page-footer cyan">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Jana Ezra V. Merlan</h5>
+          <p class="grey-text text-lighten-4">CMSC 128 AB-4L</p>
+
+
+        </div>
+        
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
+
+	 
+
+  </body>
+</html>
